@@ -34,7 +34,13 @@ public class HomeController implements Initializable {
     public JFXComboBox genreComboBox;
 
     @FXML
+    public JFXButton releaseYearComboBox;
+
+    @FXML
     public JFXButton sortBtn;
+
+    @FXML
+    public JFXButton clearBtn;
 
     public List<Movie> allMovies;
 

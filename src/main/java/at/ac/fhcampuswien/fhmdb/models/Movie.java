@@ -1,21 +1,44 @@
 package at.ac.fhcampuswien.fhmdb.models;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import com.google.gson.Gson;
+
+
+import java.io.*;
 
 
 public class Movie {
 
+    private final UUID id;
     private final String title;
     private final String description;
 
-    private final List<Genre> genres;
+    private final List<Genre> genre;
 
-    public Movie(String title, String description, List<Genre> genres) {
+    private final String imgUrl;
+    private final int releaseYear;
+    private final int lengthInMinutes;
+    private double rating;
+    private List<String> directors;
+    private List<String> mainCast;
+    private List<String> writers;
+
+    //Constructor eingefügt
+
+    public Movie(String title, String description, List<Genre> genres, String id, int releaseYear, String imgUrl, int lengthInMinutes, List<String> directors, List<String> writers, List<String> mainCast, float rating) {
+
+        this.id = UUID.randomUUID();
         this.title = title;
         this.description = description;
-        this.genres = genres;
+        this.genre = genre;
+        this.releaseYear = releaseYear;
+        this.imgUrl = imgUrl;
+        this.lengthInMinutes = lengthInMinutes;
+        this.directors = directors;
+        this.writers = writers;
+        this.mainCast = mainCast;
+        this.rating = rating;
+
     }
 
     @Override
@@ -29,7 +52,7 @@ public class Movie {
         if(!(obj instanceof Movie other)) {
             return false;
         }
-        return this.title.equals(other.title) && this.description.equals(other.description) && this.genres.equals(other.genres);
+        return this.title.equals(other.title) && this.description.equals(other.description) && this.genre.equals(other.genre);
     }
 
     public String getTitle() {
@@ -41,10 +64,14 @@ public class Movie {
     }
 
     public List<Genre> getGenres() {
-        return genres;
+        return genre;
     }
 
-    public static List<Movie> initializeMovies(){
+    public UUID getId(){
+        return id;
+    }
+
+    /*public static List<Movie> initializeMovies(){
         List<Movie> movies = new ArrayList<>();
 
         movies.add(new Movie(
@@ -103,5 +130,5 @@ public class Movie {
                 Arrays.asList(Genre.DRAMA, Genre.ROMANCE, Genre.BIOGRAPHY)));
 
         return movies;
-    }
+    }*/
 }
