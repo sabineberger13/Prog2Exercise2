@@ -2,10 +2,7 @@ package at.ac.fhcampuswien.fhmdb.models;
 
 import java.util.*;
 import com.google.gson.Gson;
-
-
 import java.io.*;
-
 
 public class Movie {
 
@@ -13,7 +10,7 @@ public class Movie {
     private final String title;
     private final String description;
 
-    private final List<Genre> genre;
+    private final List<Genre>genre;
 
     private final String imgUrl;
     private final int releaseYear;
@@ -25,22 +22,45 @@ public class Movie {
 
     //Constructor eingefügt
 
-    public Movie(String title, String description, List<Genre> genres, String id, int releaseYear, String imgUrl, int lengthInMinutes, List<String> directors, List<String> writers, List<String> mainCast, float rating) {
+    public Movie() {
+
 
         this.id = UUID.randomUUID();
-        this.title = title;
-        this.description = description;
-        this.genre = genre;
-        this.releaseYear = releaseYear;
-        this.imgUrl = imgUrl;
-        this.lengthInMinutes = lengthInMinutes;
-        this.directors = directors;
-        this.writers = writers;
-        this.mainCast = mainCast;
-        this.rating = rating;
+        this.title = "";
+        this.genre = new ArrayList<>();
+        this.releaseYear = 0;
+        this.description = "";
+        this.imgUrl = "";
+        this.lengthInMinutes = 0;
+        this.directors = new ArrayList<>();
+        this.writers = new ArrayList<>();
+        this.mainCast = new ArrayList<>();
+        this.rating = 0;
 
     }
 
+    public Movie(String title, List<Genre> genre, int releaseYear, String description, String imgUrl, int length, List<String> directors, List<String> writers, List<String> mainCast, double rating)  throws IllegalArgumentException {
+        this.id = UUID.randomUUID();
+        this.title = title;
+        this.genre = genre;
+        this.releaseYear = releaseYear;
+        this.description = description;
+        this.imgUrl = imgUrl;
+        this.lengthInMinutes = length;
+        this.directors = directors;
+        this.writers = writers;
+        this.mainCast = mainCast;
+        setRating(rating);
+    }
+    private void setRating(double rating) throws IllegalArgumentException {
+
+        if(rating >=0 && rating <= 10) {
+
+            this.rating = rating;
+        }else{
+            throw new IllegalArgumentException(("Rating must bei between 0 and 10"));
+        }
+    }
     @Override
     public boolean equals(Object obj) {
         if(obj == null) {
