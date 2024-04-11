@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+
 public class HomeController implements Initializable {
     @FXML
     public JFXButton searchBtn;
@@ -69,13 +70,28 @@ public class HomeController implements Initializable {
 
         Object[] genres = Genre.values();   // get all genres
         genreComboBox.getItems().add("No filter");  // add "no filter" to the combobox
-        genreComboBox.getItems().addAll(genres);    // add all genres to the combobox
+        genreComboBoxRate.getItems().addAll(genres);    // add all genres to the combobox
         genreComboBoxRelease.getItems().addAll();
+        //releaseYearComboBox.getItems().add("No filter");
+        //genreComboBoxRelease.getItems().addAll(releaseYears);
 
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBoxRelease.setPromptText("Filter by Release Year");
         genreComboBoxRate.setPromptText("Filter by Rating");
+
+        //Add release years
+        Integer[] releaseYears = new Integer[78];
+        for (int i = 0; i < 78; i++) {
+            releaseYears[i] = 2024 - i;
+        }
+
+
+        // Add rating
+        Double[] rating = new Double[]{1.00, 2.00, 3.00, 4.00, 5.00, 6.00, 7.00, 8.00, 9.00};
+        genreComboBoxRate.setPromptText("Filter by rating: selected or higher");
     }
+
+
 
     public void sortMovies(){
         if (sortedState == SortedState.NONE || sortedState == SortedState.DESCENDING) {
@@ -84,9 +100,6 @@ public class HomeController implements Initializable {
             sortMovies(SortedState.DESCENDING);
         }
     }
-    // sort movies based on sortedState
-    // by default sorted state is NONE
-    // afterwards it switches between ascending and descending
     public void sortMovies(SortedState sortDirection) {
         if (sortDirection == SortedState.ASCENDING) {
             observableMovies.sort(Comparator.comparing(Movie::getTitle));

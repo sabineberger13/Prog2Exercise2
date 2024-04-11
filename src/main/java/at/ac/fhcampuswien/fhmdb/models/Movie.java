@@ -3,6 +3,8 @@ package at.ac.fhcampuswien.fhmdb.models;
 import java.util.*;
 import com.google.gson.Gson;
 import java.io.*;
+import org.springframework.boot.SpringApplication;
+
 
 public class Movie {
 
