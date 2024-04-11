@@ -70,6 +70,7 @@ public class HomeController implements Initializable {
         Object[] genres = Genre.values();   // get all genres
         genreComboBox.getItems().add("No filter");  // add "no filter" to the combobox
         genreComboBox.getItems().addAll(genres);    // add all genres to the combobox
+        genreComboBoxRelease.getItems().addAll();
 
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBoxRelease.setPromptText("Filter by Release Year");
