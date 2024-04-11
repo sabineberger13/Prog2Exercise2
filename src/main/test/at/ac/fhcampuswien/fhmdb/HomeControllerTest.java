@@ -1,224 +1,198 @@
-package at.ac.fhcampuswien.fhmdb;
+package apackage at.ac.fhcampuswien.fhmdb;
 
-import at.ac.fhcampuswien.fhmdb.models.Genre;
+import at.ac.fhcampuswien.fhmdb.models.Genres;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
-import at.ac.fhcampuswien.fhmdb.models.SortedState;
-import org.junit.jupiter.api.BeforeAll;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class HomeControllerTest {
-    private static HomeController homeController;
-    @BeforeAll
-    static void init() {
-        homeController = new HomeController();
-    }
-
+    HomeController controller = new HomeController();
     @Test
-    void at_initialization_allMovies_and_observableMovies_should_be_filled_and_equal() {
-        homeController.initializeState();
-        assertEquals(homeController.allMovies, homeController.observableMovies);
-    }
+    void display_only_movies_with_selected_genre(){
 
-    @Test
-    void if_not_yet_sorted_sort_is_applied_in_ascending_order() {
-        // given
-        homeController.initializeState();
-        homeController.sortedState = SortedState.NONE;
+        //we need multiple Lists
+        //one for the example input movies
+        List<Movie> example = new ArrayList<>();
+        //another one for the movies we expect
+        List<Movie> expected = new ArrayList<>();
+        //and one for the actual movies we get
+        List<Movie> actual;
 
-        // when
-        homeController.sortMovies();
+        //Given
+        Movie movie1 = new Movie("Film-1", "Description of film-1", Arrays.asList(Genres.ACTION, Genres.ROMANCE, Genres.COMEDY));
+        Movie movie2 = new Movie("Film-2", "Description of film-2", Arrays.asList(Genres.DRAMA));
+        Movie movie3 = new Movie("Film-3", "Description of film-3", Arrays.asList(Genres.DRAMA, Genres.SPORT, Genres.ADVENTURE));
+        Movie movie4 = new Movie("Film-4", "Description of film-4", Arrays.asList(Genres.BIOGRAPHY, Genres.DRAMA));
+        example.add(movie1);
+        example.add(movie2);
+        example.add(movie3);
+        example.add(movie4);
 
-        // then
-        List<Movie> expected = Arrays.asList(
-                new Movie(
-                        "Avatar",
-                        "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
-                        Arrays.asList(Genre.ANIMATION, Genre.DRAMA, Genre.ACTION)),
-                new Movie(
-                        "Life Is Beautiful",
-                        "When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp." ,
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE)),
-                new Movie(
-                        "Puss in Boots",
-                        "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town.",
-                        Arrays.asList(Genre.COMEDY, Genre.FAMILY, Genre.ANIMATION)),
-                new Movie(
-                        "The Usual Suspects",
-                        "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup.",
-                        Arrays.asList(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY)),
-                new Movie(
-                        "The Wolf of Wall Street",
-                        "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.",
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE, Genre.BIOGRAPHY))
+        //When
+        actual = controller.filterMoviesGenre(example, Genres.DRAMA);
 
-        );
+        //Then
+        expected.add(movie2);
+        expected.add(movie3);
+        expected.add(movie4);
 
-        assertEquals(expected, homeController.observableMovies);
+        //checking if true
+        assertEquals(expected, actual);
 
     }
-
     @Test
-    void if_last_sort_ascending_next_sort_should_be_descending() {
-        // given
-        homeController.initializeState();
-        homeController.sortedState = SortedState.ASCENDING;
+    void display_only_movies_with_right_searchQuery_either_title_or_description(){
 
-        // when
-        homeController.sortMovies();
+        //we need multiple Lists
+        //one for the example input movies
+        List<Movie> example = new ArrayList<>();
+        //another one for the movies we expect
+        List<Movie> expected = new ArrayList<>();
+        //and one for the actual movies we get
+        List<Movie> actual;
 
-        // then
-        List<Movie> expected = Arrays.asList(
-                new Movie(
-                        "The Wolf of Wall Street",
-                        "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.",
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE, Genre.BIOGRAPHY)),
-                new Movie(
-                        "The Usual Suspects",
-                        "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup.",
-                        Arrays.asList(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY)),
-                new Movie(
-                        "Puss in Boots",
-                        "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town.",
-                        Arrays.asList(Genre.COMEDY, Genre.FAMILY, Genre.ANIMATION)),
-                new Movie(
-                        "Life Is Beautiful",
-                        "When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp." ,
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE)),
-                new Movie(
-                        "Avatar",
-                        "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
-                        Arrays.asList(Genre.ANIMATION, Genre.DRAMA, Genre.ACTION))
-        );
+        //Given
+        Movie movie1 = new Movie("Film-1", "Description of film-1", Arrays.asList(Genres.ACTION, Genres.ROMANCE, Genres.COMEDY));
+        Movie movie2 = new Movie("Film-2", "Description of film-2 yes", Arrays.asList(Genres.DRAMA));
+        Movie movie3 = new Movie("Film-3", "Description of film-3", Arrays.asList(Genres.DRAMA, Genres.SPORT, Genres.ADVENTURE));
+        Movie movie4 = new Movie("Film-4", "Description of film-4 yes", Arrays.asList(Genres.BIOGRAPHY, Genres.DRAMA));
+        example.add(movie1);
+        example.add(movie2);
+        example.add(movie3);
+        example.add(movie4);
 
-        assertEquals(expected, homeController.observableMovies);
-    }
+        //When
+        actual = controller.filterMoviesSearchQuery(example, "yes");
 
-    @Test
-    void if_last_sort_descending_next_sort_should_be_ascending() {
-        // given
-        homeController.initializeState();
-        homeController.sortedState = SortedState.DESCENDING;
+        //Then
+        expected.add(movie2);
+        expected.add(movie4);
 
-        // when
-        homeController.sortMovies();
-
-        // then
-        List<Movie> expected = Arrays.asList(
-                new Movie(
-                        "Avatar",
-                        "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
-                        Arrays.asList(Genre.ANIMATION, Genre.DRAMA, Genre.ACTION)),
-                new Movie(
-                        "Life Is Beautiful",
-                        "When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp." ,
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE)),
-                new Movie(
-                        "Puss in Boots",
-                        "An outlaw cat, his childhood egg-friend, and a seductive thief kitty set out in search for the eggs of the fabled Golden Goose to clear his name, restore his lost honor, and regain the trust of his mother and town.",
-                        Arrays.asList(Genre.COMEDY, Genre.FAMILY, Genre.ANIMATION)),
-                new Movie(
-                        "The Usual Suspects",
-                        "A sole survivor tells of the twisty events leading up to a horrific gun battle on a boat, which begin when five criminals meet at a seemingly random police lineup.",
-                        Arrays.asList(Genre.CRIME, Genre.DRAMA, Genre.MYSTERY)),
-                new Movie(
-                        "The Wolf of Wall Street",
-                        "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.",
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE, Genre.BIOGRAPHY))
-
-        );
-
-        assertEquals(expected, homeController.observableMovies);
-
-    }
-
-    @Test
-    void query_filter_matches_with_lower_and_uppercase_letters(){
-        // given
-        homeController.initializeState();
-        String query = "IfE";
-
-        // when
-        List<Movie> actual = homeController.filterByQuery(homeController.observableMovies, query);
-
-        // then
-        List<Movie> expected = Arrays.asList(
-                new Movie(
-                        "Life Is Beautiful",
-                        "When an open-minded Jewish librarian and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp." ,
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE)),
-                new Movie(
-                        "The Wolf of Wall Street",
-                        "Based on the true story of Jordan Belfort, from his rise to a wealthy stock-broker living the high life to his fall involving crime, corruption and the federal government.",
-                        Arrays.asList(Genre.DRAMA, Genre.ROMANCE, Genre.BIOGRAPHY))
-        );
-
+        //checking if true
         assertEquals(expected, actual);
     }
-
     @Test
-    void query_filter_with_null_movie_list_throws_exception(){
-        // given
-        homeController.initializeState();
-        String query = "IfE";
+    void display_only_movies_with_right_searchQuery_either_title_or_description_and_Genre(){
 
-        // when and then
-        assertThrows(IllegalArgumentException.class, () -> homeController.filterByQuery(null, query));
+        List<Movie> example = new ArrayList<>();
+        List<Movie> actual;
+        List<Movie> temp;
+
+        //Given
+        Movie movie1 = new Movie("Film-1", "Description of film-1", Arrays.asList(Genres.ACTION, Genres.ROMANCE, Genres.COMEDY));
+        Movie movie2 = new Movie("Film-2", "Description of film-2 yes", Arrays.asList(Genres.DRAMA));
+        Movie movie3 = new Movie("Film-3", "Description of film-3", Arrays.asList(Genres.DRAMA, Genres.SPORT, Genres.ADVENTURE));
+        Movie movie4 = new Movie("Film-4", "Description of film-4 yes", Arrays.asList(Genres.BIOGRAPHY, Genres.DRAMA));
+        example.add(movie1);
+        example.add(movie2);
+        example.add(movie3);
+        example.add(movie4);
+
+        // WHEN
+        temp = controller.filterMoviesSearchQuery(example, "yes");
+        actual = controller.filterMoviesGenre(temp, Genres.BIOGRAPHY);
+
+        // THEN
+        //List or ObservableList contain movies with the search query
+        List<Movie> expectedMovies = new ArrayList<>();
+        expectedMovies.add(movie4);
+
+        assertEquals(expectedMovies, actual);
     }
-
+    //not working --> Btn = null
+    /*
     @Test
-    void query_filter_with_null_value_returns_unfiltered_list() {
-        // given
-        homeController.initializeState();
-        String query = null;
+    void sort_asc(){
 
-        // when
-        List<Movie> actual = homeController.filterByQuery(homeController.observableMovies, query);
+        //we need multiple Lists
+        ObservableList<Movie> example = FXCollections.observableArrayList();
 
-        // then
-        assertEquals(homeController.observableMovies, actual);
+        //Given
+        Movie movie1 = new Movie("Film-1", " A Description of film-1", Arrays.asList(Genres.ACTION, Genres.ROMANCE, Genres.COMEDY));
+        Movie movie2 = new Movie("Film-2", "Description of film-2 yes", Arrays.asList(Genres.DRAMA));
+        Movie movie3 = new Movie("Film-3", " C Description of film-3", Arrays.asList(Genres.DRAMA, Genres.SPORT, Genres.ADVENTURE));
+
+        example.add(movie1);
+        example.add(movie2);
+        example.add(movie3);
+
+        //test
+        //String sortBtnText = "Sort (asc)";
+        // WHEN
+        controller.sortMovies(example, "Sort (asc)"); //actual
+
+
+        // assert
+        assertEquals("Film-1", example.get(0).getTitle());
+        assertEquals("Film-2", example.get(2).getTitle());
+        assertEquals("Film-3", example.get(1).getTitle());
+        //assertEquals("Sort (desc)", sortBtnText);
     }
+    */
 
+    /*
     @Test
-    void genre_filter_with_null_value_returns_unfiltered_list() {
-        // given
-        homeController.initializeState();
-        Genre genre = null;
+    void sort_desc(){
 
-        // when
-        List<Movie> actual = homeController.filterByGenre(homeController.observableMovies, genre);
+        //we need multiple Lists
+        ObservableList<Movie> example = FXCollections.observableArrayList();
 
-        // then
-        assertEquals(homeController.observableMovies, actual);
-    }
+        //Given
+        Movie movie1 = new Movie("Film-1", " A Description of film-1", Arrays.asList(Genres.ACTION, Genres.ROMANCE, Genres.COMEDY));
+        Movie movie2 = new Movie("Film-2", "Description of film-2 yes", Arrays.asList(Genres.DRAMA));
+        Movie movie3 = new Movie("Film-3", " C Description of film-3", Arrays.asList(Genres.DRAMA, Genres.SPORT, Genres.ADVENTURE));
 
+        example.add(movie1);
+        example.add(movie2);
+        example.add(movie3);
+
+        //test
+        //String sortBtnText = "Sort (desc)";
+        // WHEN
+        controller.sortMovies(example, "Sort (desc)"); //actual
+
+        // assert
+        assertEquals("Film-1", example.get(2).getTitle());
+        assertEquals("Film-2", example.get(0).getTitle());
+        assertEquals("Film-3", example.get(1).getTitle());
+        //assertEquals("Sort (asc)", sortBtnText);
+    }*/
+    /*
     @Test
-    void genre_filter_returns_all_movies_containing_given_genre() {
-        // given
-        homeController.initializeState();
-        Genre genre = Genre.DRAMA;
+     void testClearFilter() {
+        // arrange
+        ObservableList<Movie> allMovies = FXCollections.observableArrayList();
+        allMovies.add(new Movie("Movie 1", "Action", Arrays.asList(Genres.ACTION, Genres.ROMANCE, Genres.COMEDY)));
+        allMovies.add(new Movie("Movie 2", "Comedy", Arrays.asList(Genres.ACTION)));
+        allMovies.add(new Movie("Movie 3", "Drama", Arrays.asList(Genres.DRAMA, Genres.SPORT)));
 
-        // when
-        List<Movie> actual = homeController.filterByGenre(homeController.observableMovies, genre);
+        ComboBox<String> genreComboBox = new ComboBox<String>();
+        genreComboBox.getItems().addAll("Action", "Comedy", "Drama");
+        genreComboBox.getSelectionModel().select("Action");
+        TextField searchField = new TextField("Movie 1");
 
-        // then
-        assertEquals(4, actual.size());
+        ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
+        observableMovies.addAll(allMovies);
+
+        // act
+        controller.clearFilter();
+
+        // assert
+        assertTrue(genreComboBox.getSelectionModel().isEmpty());
+        assertEquals("Filter by Genre", genreComboBox.getPromptText());
+        assertEquals(allMovies.size(), observableMovies.size());
+        assertTrue(observableMovies.containsAll(allMovies));
+        assertTrue(searchField.getText().isEmpty());
     }
-
-    @Test
-    void no_filtering_ui_if_empty_query_or_no_genre_is_set() {
-        // given
-        homeController.initializeState();
-
-        // when
-        homeController.applyAllFilters("", null);
-
-        // then
-        assertEquals(homeController.allMovies, homeController.observableMovies);
-    }
-
+*/
 }

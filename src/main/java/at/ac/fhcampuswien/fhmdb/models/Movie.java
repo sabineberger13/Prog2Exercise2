@@ -14,6 +14,7 @@ public class Movie {
 
     private final List<Genre>genre;
 
+
     private final String imgUrl;
     private final int releaseYear;
     private final int lengthInMinutes;
@@ -40,7 +41,7 @@ public class Movie {
 
     }
 
-    public Movie(String title, List<Genre> genre, int releaseYear, String description, String imgUrl, int length, List<String> directors, List<String> writers, List<String> mainCast, double rating)  throws IllegalArgumentException {
+    public Movie(String title, List<Genre>genre, int releaseYear, String description, String imgUrl, int length, List<String> directors, List<String> writers, List<String> mainCast, double rating)  throws IllegalArgumentException {
         this.id = UUID.randomUUID();
         this.title = title;
         this.genre = genre;
@@ -99,6 +100,7 @@ public class Movie {
     public int getReleaseYear(){return releaseYear;}
 
     public static List<Movie> initializeMovies(){
+
 
         return new ArrayList<>();
     }

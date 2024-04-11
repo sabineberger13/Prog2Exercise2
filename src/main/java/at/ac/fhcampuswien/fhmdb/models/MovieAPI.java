@@ -53,6 +53,7 @@ public class MovieAPI {
 
         OkHttpClient client = new OkHttpClient();
         try (Response response = client.newCall(request).execute()){
+            assert response.body() != null;
             String responseBody = response.body().string();
             Gson gson = new Gson();
 

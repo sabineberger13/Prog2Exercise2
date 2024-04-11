@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.models.SortedState;
 import at.ac.fhcampuswien.fhmdb.models.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.models.SortedState;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
@@ -35,8 +36,6 @@ public class HomeController implements Initializable {
     @FXML
     public JFXComboBox genreComboBox;
 
-    @FXML
-    public JFXButton releaseYears;
 
     @FXML
     public JFXButton sortBtn;
@@ -57,6 +56,7 @@ public class HomeController implements Initializable {
         initializeState();
         initializeLayout();
     }
+
 
     public void initializeState() {
         allMovies = Movie.initializeMovies();
@@ -153,7 +153,7 @@ public class HomeController implements Initializable {
 
         return movies.stream()
                 .filter(Objects::nonNull)
-                .filter(movie -> movie.getReleaseYear() == releaseYear)
+                .filter(movie -> movie.getReleaseYear() ==  releaseYear)
                 .toList();
     }
 
