@@ -24,7 +24,6 @@ public class Movie {
 
     public Movie() {
 
-
         this.id = UUID.randomUUID();
         this.title = "";
         this.genre = new ArrayList<>();
@@ -74,6 +73,7 @@ public class Movie {
         }
         return this.title.equals(other.title) && this.description.equals(other.description) && this.genre.equals(other.genre);
     }
+
 
     public String getTitle() {
         return title;

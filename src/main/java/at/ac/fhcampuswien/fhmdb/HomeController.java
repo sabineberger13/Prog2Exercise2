@@ -43,6 +43,8 @@ public class HomeController implements Initializable {
     public JFXButton clearBtn;
 
     public List<Movie> allMovies;
+    public JFXComboBox genreComboBoxRelease;
+    public JFXComboBox genreComboBoxRate;
 
     protected ObservableList<Movie> observableMovies = FXCollections.observableArrayList();
 
@@ -68,7 +70,10 @@ public class HomeController implements Initializable {
         Object[] genres = Genre.values();   // get all genres
         genreComboBox.getItems().add("No filter");  // add "no filter" to the combobox
         genreComboBox.getItems().addAll(genres);    // add all genres to the combobox
+
         genreComboBox.setPromptText("Filter by Genre");
+        genreComboBoxRelease.setPromptText("Filter by Release Year");
+        genreComboBoxRate.setPromptText("Filter by Rating");
     }
 
     public void sortMovies(){
