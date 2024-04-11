@@ -34,8 +34,8 @@
          <JFXComboBox fx:id="genreComboBox" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" />
          <JFXComboBox fx:id="genreComboBoxRelease" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" />
          <JFXComboBox fx:id="genreComboBoxRate" focusColor="#f5c518" styleClass="filter-combo-box" stylesheets="@styles.css" />
-         <JFXButton fx:id="searchBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Filter" onAction="#searchBtnClicked"/>
-         <JFXButton fx:id="clearBtn"  styleClass="background-yellow" stylesheets="@styles.css" text="Filter2" onAction="#sortBtnClicked"/>
+         <JFXButton fx:id="searchBtn" styleClass="background-yellow" stylesheets="@styles.css" text="Search" onAction="#searchBtnClicked"/>
+         <JFXButton fx:id="clearBtn"  styleClass="background-yellow" stylesheets="@styles.css" text="Clear" onAction="#sortBtnClicked"/>
       </children>
       <VBox.margin>
          <Insets />

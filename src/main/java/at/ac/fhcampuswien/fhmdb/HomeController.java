@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.models.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.models.SortedState;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.JFXButton;
@@ -35,7 +36,7 @@ public class HomeController implements Initializable {
     public JFXComboBox genreComboBox;
 
     @FXML
-    public JFXButton releaseYearComboBox;
+    public JFXButton releaseYears;
 
     @FXML
     public JFXButton sortBtn;
@@ -53,16 +54,16 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //initializeState();
+        initializeState();
         initializeLayout();
     }
 
-    /*public void initializeState() {
+    public void initializeState() {
         allMovies = Movie.initializeMovies();
         observableMovies.clear();
         observableMovies.addAll(allMovies); // add all movies to the observable list
         sortedState = SortedState.NONE;
-    }*/
+    }
 
     public void initializeLayout() {
         movieListView.setItems(observableMovies);   // set the items of the listview to the observable list
@@ -70,14 +71,14 @@ public class HomeController implements Initializable {
 
         Object[] genres = Genre.values();   // get all genres
         genreComboBox.getItems().add("No filter");  // add "no filter" to the combobox
-        genreComboBoxRate.getItems().addAll(genres);    // add all genres to the combobox
+        genreComboBox.getItems().addAll(genres);    // add all genres to the combobox
         genreComboBoxRelease.getItems().addAll();
-        //releaseYearComboBox.getItems().add("No filter");
-        //genreComboBoxRelease.getItems().addAll(releaseYears);
+        genreComboBoxRelease.getItems().add("No Filter");
+        genreComboBoxRelease.getItems().addAll();
 
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBoxRelease.setPromptText("Filter by Release Year");
-        genreComboBoxRate.setPromptText("Filter by Rating");
+        //genreComboBoxRate.setPromptText("Filter by Rating");
 
         //Add release years
         Integer[] releaseYears = new Integer[78];
@@ -88,7 +89,7 @@ public class HomeController implements Initializable {
 
         // Add rating
         Double[] rating = new Double[]{1.00, 2.00, 3.00, 4.00, 5.00, 6.00, 7.00, 8.00, 9.00};
-        genreComboBoxRate.setPromptText("Filter by rating: selected or higher");
+        genreComboBoxRate.setPromptText("Filter by rating");
     }
 
 
@@ -109,6 +110,8 @@ public class HomeController implements Initializable {
             sortedState = SortedState.DESCENDING;
         }
     }
+
+
 
     public List<Movie> filterByQuery(List<Movie> movies, String query){
         if(query == null || query.isEmpty()) return movies;
@@ -136,6 +139,21 @@ public class HomeController implements Initializable {
         return movies.stream()
                 .filter(Objects::nonNull)
                 .filter(movie -> movie.getGenres().contains(genre))
+                .toList();
+    }
+
+    public List<Movie> filterByReleaseYear(List<Movie> movies, Integer releaseYear) {
+        if (releaseYear == null){
+            return movies;
+        }
+
+        if (movies == null) {
+            throw new IllegalArgumentException("movies must not be null");
+        }
+
+        return movies.stream()
+                .filter(Objects::nonNull)
+                .filter(movie -> movie.getReleaseYear() == releaseYear)
                 .toList();
     }
 
