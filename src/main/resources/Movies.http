@@ -1,0 +1,7 @@
+### GET request with a header
+GET https://prog2.fh-campuswien.ac.at/movies
+Accept: application/json
+
+### GET request with parameter
+GET https://prog2.fh-campuswien.ac.at/movies/a00b56aa-0eaf-4332-a02d-736910950128
+Accept: application/json
